@@ -65,7 +65,7 @@ byte pn532ack[] = {0x00, 0x00, 0xFF, 0x00, 0xFF, 0x00};
 byte pn532response_firmwarevers[] = {0x00, 0xFF, 0x06, 0xFA, 0xD5, 0x03};
 
 // Uncomment these lines to enable debug output for PN532(SPI) and/or MIFARE related code
-// #define PN532DEBUG
+#define PN532DEBUG
 // #define MIFAREDEBUG
 
 // If using Native Port on Arduino Zero or Due define as SerialUSB
@@ -197,32 +197,19 @@ void Adafruit_PN532::begin() {
     if (_hardwareSPI) {
       _hardwareSPI->begin();
 
-      #ifdef SPI_HAS_TRANSACTION
-        #ifdef ARDUINO_ARCH_STM32
-          _hardwareSPI->beginTransaction(_ss, PN532_SPI_SETTING);
-        #else
-          _hardwareSPI->beginTransaction(PN532_SPI_SETTING);
-        #endif
-      #else
+      #ifndef SPI_HAS_TRANSACTION
         _hardwareSPI->setDataMode(SPI_MODE0);
         _hardwareSPI->setBitOrder(LSBFIRST);
         _hardwareSPI->setClockDivider(PN532_SPI_CLOCKDIV);
       #endif
     }
-    digitalWrite(_ss, LOW);
 
     delay(1000);
 
     // not exactly sure why but we have to send a dummy command to get synced up
     pn532_packetbuffer[0] = PN532_COMMAND_GETFIRMWAREVERSION;
     sendCommandCheckAck(pn532_packetbuffer, 1);
-
     // ignore response!
-
-    digitalWrite(_ss, HIGH);
-    #ifdef SPI_HAS_TRANSACTION
-      if (_hardwareSPI) _hardwareSPI->endTransaction();
-    #endif
   }
   else {
     // I2C initialization.
