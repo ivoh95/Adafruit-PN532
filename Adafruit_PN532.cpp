@@ -204,7 +204,7 @@ void Adafruit_PN532::begin() {
       #endif
     }
 
-    delay(1000);
+    //delay(delay(1000);
 
     // not exactly sure why but we have to send a dummy command to get synced up
     pn532_packetbuffer[0] = PN532_COMMAND_GETFIRMWAREVERSION;
