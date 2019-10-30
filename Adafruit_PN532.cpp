@@ -204,8 +204,6 @@ void Adafruit_PN532::begin() {
       #endif
     }
 
-    //delay(delay(1000);
-
     // not exactly sure why but we have to send a dummy command to get synced up
     pn532_packetbuffer[0] = PN532_COMMAND_GETFIRMWAREVERSION;
     sendCommandCheckAck(pn532_packetbuffer, 1);
@@ -1575,7 +1573,6 @@ bool Adafruit_PN532::isready() {
       if (_hardwareSPI) _hardwareSPI->beginTransaction(PN532_SPI_SETTING);
     #endif
     digitalWrite(_ss, LOW);
-    delay(2);
     spi_write(PN532_SPI_STATREAD);
     // read byte
     uint8_t x = spi_read();
@@ -1639,7 +1636,7 @@ void Adafruit_PN532::readdata(uint8_t* buff, uint8_t n) {
       PN532DEBUGPRINT.print(F("Reading: "));
     #endif
     for (uint8_t i=0; i<n; i++) {
-      delay(1);
+      delayMicroseconds(200);
       buff[i] = spi_read();
       #ifdef PN532DEBUG
         PN532DEBUGPRINT.print(F(" 0x"));
