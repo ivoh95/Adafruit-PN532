@@ -1795,7 +1795,6 @@ void Adafruit_PN532::writecommand(uint8_t* cmd, uint8_t cmdlen) {
     #ifdef PN532DEBUG
       PN532DEBUGPRINT.print(F("\nSending: "));
     #endif
-
     #ifdef SPI_HAS_TRANSACTION
       if (_hardwareSPI) _hardwareSPI->beginTransaction(PN532_SPI_SETTING);
     #endif
