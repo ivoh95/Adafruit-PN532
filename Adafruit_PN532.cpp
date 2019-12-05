@@ -303,17 +303,16 @@ uint32_t Adafruit_PN532::getFirmwareVersion(void) {
 
   // read data packet
   readdata(pn532_packetbuffer, 12);
-  int offset = _usingSPI ? 0 : 1; // Skip a response byte when using I2C to ignore extra data.
 
   // check some basic stuff
-  if (0 != memcmp((char *) &pn532_packetbuffer[offset], (char *)pn532response_firmwarevers, 6)) {
+  if (0 != memcmp((char *)pn532_packetbuffer, (char *)pn532response_firmwarevers, 6)) {
 #ifdef PN532DEBUG
       PN532DEBUGPRINT.println(F("Firmware doesn't match!"));
 #endif
     return 0;
   }
 
-  offset = _usingSPI ? 6 : 7; // Skip a response byte when using I2C to ignore extra data.
+  int offset = _usingSPI ? 6 : 7;  // Skip a response byte when using I2C to ignore extra data.
   response = pn532_packetbuffer[offset++];
   response <<= 8;
   response |= pn532_packetbuffer[offset++];
