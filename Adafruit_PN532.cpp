@@ -339,7 +339,6 @@ uint32_t Adafruit_PN532::getFirmwareVersion(void) {
 /**************************************************************************/
 // default timeout of one second
 bool Adafruit_PN532::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t timeout) {
-  uint16_t timer = 0;
 
   // write the command
   writecommand(cmd, cmdlen);
@@ -389,7 +388,6 @@ bool Adafruit_PN532::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t 
 /**************************************************************************/
 // default timeout of one second
 bool Adafruit_PN532::sendCommandCheckAckNonBlocking(uint8_t *cmd, uint8_t cmdlen, uint16_t timeout) {
-  uint16_t timer = 0;
 
   // write the command
   writecommand(cmd, cmdlen);
@@ -439,7 +437,6 @@ bool Adafruit_PN532::sendCommandCheckAckNonBlocking(uint8_t *cmd, uint8_t cmdlen
 */
 /**************************************************************************/
 bool Adafruit_PN532::writeGPIO(uint8_t pinstate) {
-  uint8_t errorbit;
 
   // Make sure pinstate does not try to toggle P32 or P34
   pinstate |= (1 << PN532_GPIO_P32) | (1 << PN532_GPIO_P34);
@@ -899,7 +896,6 @@ bool Adafruit_PN532::mifareclassic_IsTrailerBlock (uint32_t uiBlock)
 /**************************************************************************/
 uint8_t Adafruit_PN532::mifareclassic_AuthenticateBlock (uint8_t * uid, uint8_t uidLen, uint32_t blockNumber, uint8_t keyNumber, uint8_t * keyData)
 {
-  uint8_t len;
   uint8_t i;
 
   // Hang on to the key and uid data
@@ -1657,7 +1653,6 @@ void Adafruit_PN532::readdata(uint8_t* buff, uint8_t n) {
   }
   else {
     // I2C write.
-    uint16_t timer = 0;
 
     delay(2);
 
